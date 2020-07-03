@@ -1,5 +1,6 @@
 package com.korges.demo.controller;
 
+import com.korges.demo.model.dto.input.EmailInputDTO;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.service.EmailService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class EmailController {
     }
 
     @PostMapping
-    public Email save(@RequestBody Email email) {
+    public Email save(@RequestBody EmailInputDTO email) {
         return emailService.save(email);
     }
 

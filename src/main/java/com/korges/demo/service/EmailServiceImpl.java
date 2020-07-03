@@ -1,6 +1,8 @@
 package com.korges.demo.service;
 
+import com.korges.demo.model.dto.input.EmailInputDTO;
 import com.korges.demo.model.entity.Email;
+import com.korges.demo.model.enums.EmailStatus;
 import com.korges.demo.repository.EmailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,13 @@ import java.util.Optional;
 public class EmailServiceImpl implements EmailService {
     private final EmailRepository emailRepository;
 
-    public Email save(Email email) {
+    public Email save(EmailInputDTO emailDTO) {
+        Email email = Email.builder()
+                .header(emailDTO.getHeader())
+                .message(emailDTO.getMessage())
+                .status(EmailStatus.PENDING)
+                .build();
+
         return emailRepository.save(email);
     }
 
