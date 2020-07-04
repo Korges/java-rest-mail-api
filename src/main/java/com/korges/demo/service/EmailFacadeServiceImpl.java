@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import static java.util.Objects.isNull;
+
 @RequiredArgsConstructor
 @Service
 public class EmailFacadeServiceImpl implements EmailFacadeService {
@@ -21,13 +23,14 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
     private final EmailSenderService emailSenderService;
 
     private final Predicate<Email> isEmailPending =  email -> email.getStatus().equals(EmailStatus.PENDING);
-    private final Function<Email, Email> setEmailStatusToSent = email -> new Email(email.getId(), email.getHeader(), email.getMessage(), EmailStatus.SENT);
+    private final Function<Email, Email> setEmailStatusToSent = email -> new Email(email.getId(), email.getHeader(), email.getMessage(), email.getRecipients(), EmailStatus.SENT);
 
     @Override
     public Email save(EmailInputDTO emailDTO) {
         Email email = Email.builder()
                 .header(emailDTO.getHeader())
                 .message(emailDTO.getMessage())
+                .recipients(isNull(emailDTO.getRecipients()) ? List.of() : emailDTO.getRecipients())
                 .status(EmailStatus.PENDING)
                 .build();
 

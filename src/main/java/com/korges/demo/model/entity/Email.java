@@ -7,6 +7,9 @@ import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
+@AllArgsConstructor
 @Getter
 @Builder
 @Document
@@ -15,28 +18,11 @@ public class Email {
     private String id;
     private String header;
     private String message;
+    private List<String> recipients;
     private EmailStatus status;
 
     public Email() {
 
     }
 
-    public Email(String id, String header, String message, EmailStatus status) {
-        this.id = id;
-        this.header = header;
-        this.message = message;
-        this.status = status;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public void setStatus(EmailStatus status) {
-        this.status = status;
-    }
 }
