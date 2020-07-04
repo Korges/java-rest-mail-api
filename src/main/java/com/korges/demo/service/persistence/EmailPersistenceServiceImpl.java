@@ -15,14 +15,17 @@ import java.util.Optional;
 public class EmailPersistenceServiceImpl implements EmailPersistenceService {
     private final EmailRepository emailRepository;
 
+    @Override
     public Email save(Email email) {
         return emailRepository.save(email);
     }
 
+    @Override
     public List<Email> findAll() {
         return emailRepository.findAll();
     }
 
+    @Override
     public Optional<Email> findById(String id) {
         return emailRepository.findById(id);
     }
