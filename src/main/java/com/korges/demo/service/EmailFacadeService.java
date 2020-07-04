@@ -11,5 +11,6 @@ public interface EmailFacadeService {
     Email save(EmailInputDTO email);
     List<Email> findAll();
     Optional<Email> findById(String id);
+    Email send(String id);
 
 }

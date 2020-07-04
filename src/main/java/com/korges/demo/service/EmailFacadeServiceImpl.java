@@ -4,6 +4,7 @@ import com.korges.demo.model.dto.input.EmailInputDTO;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.model.enums.EmailStatus;
 import com.korges.demo.service.persistence.EmailPersistenceService;
+import com.korges.demo.service.sender.EmailSenderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Service
 public class EmailFacadeServiceImpl implements EmailFacadeService {
     private final EmailPersistenceService emailPersistenceService;
+    private final EmailSenderService emailSenderService;
 
     @Override
     public Email save(EmailInputDTO emailDTO) {
@@ -35,4 +37,10 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
     public Optional<Email> findById(String id) {
         return emailPersistenceService.findById(id);
     }
+
+    @Override
+    public Email send(String id) {
+        return emailSenderService.send(null);
+    }
+
 }
