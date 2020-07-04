@@ -1,14 +1,15 @@
 package com.korges.demo.service.persistence;
 
 import com.korges.demo.model.entity.Email;
+import com.korges.demo.model.enums.Error;
+import io.vavr.control.Either;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface EmailPersistenceService {
 
     Email save(Email email);
     List<Email> findAll();
-    Optional<Email> findById(String id);
+    Either<Error, Email> findById(String id);
 
 }

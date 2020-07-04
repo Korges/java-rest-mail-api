@@ -1,14 +1,14 @@
 package com.korges.demo.service.persistence;
 
-import com.korges.demo.model.dto.input.EmailInputDTO;
 import com.korges.demo.model.entity.Email;
-import com.korges.demo.model.enums.EmailStatus;
+import com.korges.demo.model.enums.Error;
 import com.korges.demo.repository.EmailRepository;
+import io.vavr.control.Either;
+import io.vavr.control.Option;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -26,8 +26,9 @@ public class EmailPersistenceServiceImpl implements EmailPersistenceService {
     }
 
     @Override
-    public Optional<Email> findById(String id) {
-        return emailRepository.findById(id);
+    public Either<Error, Email> findById(String id) {
+        return Option.ofOptional(emailRepository.findById(id))
+                .toEither(() -> Error.NOT_FOUND);
     }
 
 }
