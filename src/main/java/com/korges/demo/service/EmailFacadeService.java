@@ -4,10 +4,8 @@ import com.korges.demo.model.dto.input.EmailInputDTO;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.model.enums.Error;
 import io.vavr.control.Either;
-import io.vavr.control.Option;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface EmailFacadeService {
 
@@ -15,5 +13,6 @@ public interface EmailFacadeService {
     List<Email> findAll();
     Either<Error, Email> findById(String id);
     Either<Error, Email> send(String id);
+    List<Either<Error, Email>> sendAllPending();
 
 }

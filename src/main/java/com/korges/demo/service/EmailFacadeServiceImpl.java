@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -22,7 +23,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
     private final EmailPersistenceService emailPersistenceService;
     private final EmailSenderService emailSenderService;
 
-    private final Predicate<Email> isEmailPending =  email -> email.getStatus().equals(EmailStatus.PENDING);
+    private final Predicate<Email> isEmailPending =  email -> email.getEmailStatus().equals(EmailStatus.PENDING);
     private final Function<Email, Email> setEmailStatusToSent = email -> new Email(email.getId(), email.getSubject(), email.getText(), email.getRecipients(), EmailStatus.SENT);
 
     @Override
@@ -31,7 +32,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
                 .subject(emailDTO.getSubject())
                 .text(emailDTO.getText())
                 .recipients(isNull(emailDTO.getRecipients()) ? List.of() : emailDTO.getRecipients())
-                .status(EmailStatus.PENDING)
+                .emailStatus(EmailStatus.PENDING)
                 .build();
 
         return emailPersistenceService.save(email);
@@ -54,6 +55,15 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
                 .flatMap(emailSenderService::send)
                 .map(setEmailStatusToSent)
                 .map(emailPersistenceService::save);
+    }
+
+    @Override
+    public List<Either<Error, Email>> sendAllPending() {
+        return emailPersistenceService.findAllByEmailStatus(EmailStatus.PENDING)
+                .stream()
+                .map(Email::getId)
+                .map(this::send)
+                .collect(Collectors.toList());
     }
 
 }

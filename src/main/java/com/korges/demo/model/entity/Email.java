@@ -19,7 +19,7 @@ public class Email {
     private String subject;
     private String text;
     private List<String> recipients;
-    private EmailStatus status;
+    private EmailStatus emailStatus;
 
     public Email() {
 

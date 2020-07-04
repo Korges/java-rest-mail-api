@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -37,11 +38,24 @@ public class EmailController {
     }
 
     // TODO
-    @PostMapping("/{id}/send")
+    @PostMapping("/send/{id}")
     public Email send(@PathVariable("id") String id) {
         Either<Error, Email> s = emailFacadeService.send(id);
 
         return s.get();
+    }
+
+    @PostMapping("/send/all")
+    public List<Email> sendAllPending() {
+        List<Either<Error, Email>> l =  emailFacadeService.sendAllPending();
+        l.forEach(x -> {
+            if (x.isRight()) {
+                System.out.println(x.toString());
+            } else {
+                System.out.println(x.toString());
+            }
+        });
+        return new ArrayList<>();
     }
 
 }
