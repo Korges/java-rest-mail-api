@@ -8,7 +8,6 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 
     @Override
     public Email send(Email email) {
-        return null;
+        return email;
     }
-
 }
