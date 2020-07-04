@@ -15,13 +15,7 @@ import java.util.Optional;
 public class EmailPersistenceServiceImpl implements EmailPersistenceService {
     private final EmailRepository emailRepository;
 
-    public Email save(EmailInputDTO emailDTO) {
-        Email email = Email.builder()
-                .header(emailDTO.getHeader())
-                .message(emailDTO.getMessage())
-                .status(EmailStatus.PENDING)
-                .build();
-
+    public Email save(Email email) {
         return emailRepository.save(email);
     }
 

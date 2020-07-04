@@ -2,6 +2,7 @@ package com.korges.demo.controller;
 
 import com.korges.demo.model.dto.input.EmailInputDTO;
 import com.korges.demo.model.entity.Email;
+import com.korges.demo.service.EmailFacadeService;
 import com.korges.demo.service.persistence.EmailPersistenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @RequestMapping("/emails")
 @RestController
 public class EmailController {
-    private final EmailPersistenceService emailPersistenceService;
+    private final EmailFacadeService emailPersistenceService;
 
     @GetMapping
     public List<Email> findAll() {
