@@ -23,13 +23,13 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
     private final EmailSenderService emailSenderService;
 
     private final Predicate<Email> isEmailPending =  email -> email.getStatus().equals(EmailStatus.PENDING);
-    private final Function<Email, Email> setEmailStatusToSent = email -> new Email(email.getId(), email.getHeader(), email.getMessage(), email.getRecipients(), EmailStatus.SENT);
+    private final Function<Email, Email> setEmailStatusToSent = email -> new Email(email.getId(), email.getSubject(), email.getText(), email.getRecipients(), EmailStatus.SENT);
 
     @Override
     public Email save(EmailInputDTO emailDTO) {
         Email email = Email.builder()
-                .header(emailDTO.getHeader())
-                .message(emailDTO.getMessage())
+                .subject(emailDTO.getSubject())
+                .text(emailDTO.getText())
                 .recipients(isNull(emailDTO.getRecipients()) ? List.of() : emailDTO.getRecipients())
                 .status(EmailStatus.PENDING)
                 .build();

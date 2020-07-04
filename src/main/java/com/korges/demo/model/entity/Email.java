@@ -16,8 +16,8 @@ import java.util.List;
 public class Email {
     @Id
     private String id;
-    private String header;
-    private String message;
+    private String subject;
+    private String text;
     private List<String> recipients;
     private EmailStatus status;
 
