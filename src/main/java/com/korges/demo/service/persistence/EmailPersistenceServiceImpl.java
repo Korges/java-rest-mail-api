@@ -1,4 +1,4 @@
-package com.korges.demo.service;
+package com.korges.demo.service.persistence;
 
 import com.korges.demo.model.dto.input.EmailInputDTO;
 import com.korges.demo.model.entity.Email;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class EmailServiceImpl implements EmailService {
+public class EmailPersistenceServiceImpl implements EmailPersistenceService {
     private final EmailRepository emailRepository;
 
     public Email save(EmailInputDTO emailDTO) {
@@ -32,4 +32,5 @@ public class EmailServiceImpl implements EmailService {
     public Optional<Email> findById(String id) {
         return emailRepository.findById(id);
     }
+
 }
