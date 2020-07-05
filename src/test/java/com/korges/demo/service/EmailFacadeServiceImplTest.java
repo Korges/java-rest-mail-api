@@ -49,7 +49,7 @@ class EmailFacadeServiceImplTest {
 
         // then
         assertTrue(response.isLeft());
-        assertEquals(ErrorEnum.SENT, response.getLeft());
+        assertEquals(ErrorEnum.SENT, response.getLeft().getError());
     }
 
     @DisplayName("Test if update(...) method returns Either.Right and is Correct")
@@ -88,7 +88,7 @@ class EmailFacadeServiceImplTest {
 
         // then
         assertTrue(response.isLeft());
-        assertEquals(ErrorEnum.SENT, response.getLeft());
+        assertEquals(ErrorEnum.SENT, response.getLeft().getError());
     }
 
     @DisplayName("Test if send(...) method returns Either.Left")
@@ -103,7 +103,7 @@ class EmailFacadeServiceImplTest {
 
         // then
         assertTrue(response.isLeft());
-        assertEquals(ErrorEnum.NO_RECIPIENTS, response.getLeft());
+        assertEquals(ErrorEnum.NO_RECIPIENTS, response.getLeft().getError());
     }
 
     @DisplayName("Test if send(...) method returns Either.Right and is Correct")
