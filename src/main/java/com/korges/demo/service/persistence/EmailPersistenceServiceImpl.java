@@ -36,4 +36,10 @@ public class EmailPersistenceServiceImpl implements EmailPersistenceService {
         return List.ofAll(emailRepository.findAllByEmailStatus(emailStatus));
     }
 
+    @Override
+    public Either<Error, EmailStatus> findEmailStatus(String id) {
+        return this.findById(id)
+                .map(Email::getEmailStatus);
+    }
+
 }

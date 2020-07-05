@@ -13,5 +13,6 @@ public interface EmailPersistenceService {
     List<Email> findAll();
     Either<Error, Email> findById(String id);
     List<Email> findAllByEmailStatus(EmailStatus status);
+    Either<Error, EmailStatus> findEmailStatus(String id);
 
 }

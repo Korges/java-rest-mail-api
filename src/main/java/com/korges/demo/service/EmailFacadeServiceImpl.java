@@ -76,4 +76,9 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
                 );
     }
 
+    @Override
+    public Either<Error, EmailStatus> findEmailStatus(String id) {
+        return emailPersistenceService.findEmailStatus(id);
+    }
+
 }
