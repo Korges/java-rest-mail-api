@@ -1,8 +1,8 @@
 package com.korges.demo.service.persistence;
 
+import com.korges.demo.model.dto.input.Error;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.model.enums.EmailStatus;
-import com.korges.demo.model.enums.Error;
 import com.korges.demo.repository.EmailRepository;
 import io.vavr.control.Either;
 import org.junit.jupiter.api.Assertions;

@@ -1,9 +1,10 @@
 package com.korges.demo.service;
 
 import com.korges.demo.model.dto.input.EmailInputDTO;
+import com.korges.demo.model.dto.input.Error;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.model.enums.EmailStatus;
-import com.korges.demo.model.enums.Error;
+import com.korges.demo.model.enums.ErrorEnum;
 import com.korges.demo.service.persistence.EmailPersistenceService;
 import com.korges.demo.service.sender.EmailSenderService;
 import io.vavr.collection.List;
@@ -51,7 +52,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
     @Override
     public Either<Error, Email> update(String id, EmailInputDTO email) {
         return emailPersistenceService.findById(id)
-                .filterOrElse(x -> x.getEmailStatus().equals(EmailStatus.PENDING), x -> Error.SENT)
+                .filterOrElse(x -> x.getEmailStatus().equals(EmailStatus.PENDING), x -> Error.build(id, ErrorEnum.SENT))
                 .map(x -> new Email(x.getId(), email.getSubject(), email.getText(), email.getRecipients(), email.getAttachments(), x.getEmailStatus(), email.getPriority()))
                 .map(emailPersistenceService::save);
     }
@@ -59,8 +60,8 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
     @Override
     public Either<Error, Email> send(String id) {
         return emailPersistenceService.findById(id)
-                .filterOrElse(isEmailPending, x -> Error.SENT)
-                .filterOrElse(isRecipientProvided, x -> Error.NO_RECIPIENTS)
+                .filterOrElse(isEmailPending, x -> Error.build(id, ErrorEnum.SENT))
+                .filterOrElse(isRecipientProvided, x -> Error.build(id, ErrorEnum.NO_RECIPIENTS))
                 .flatMap(emailSenderService::send)
                 .map(setEmailStatusToSent)
                 .map(emailPersistenceService::save);

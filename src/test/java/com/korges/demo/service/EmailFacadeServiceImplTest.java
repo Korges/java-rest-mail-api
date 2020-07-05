@@ -1,9 +1,10 @@
 package com.korges.demo.service;
 
 import com.korges.demo.model.dto.input.EmailInputDTO;
+import com.korges.demo.model.dto.input.Error;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.model.enums.EmailStatus;
-import com.korges.demo.model.enums.Error;
+import com.korges.demo.model.enums.ErrorEnum;
 import com.korges.demo.model.enums.Priority;
 import com.korges.demo.service.persistence.EmailPersistenceService;
 import com.korges.demo.service.sender.EmailSenderService;
@@ -18,7 +19,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,7 +49,7 @@ class EmailFacadeServiceImplTest {
 
         // then
         assertTrue(response.isLeft());
-        assertEquals(Error.SENT, response.getLeft());
+        assertEquals(ErrorEnum.SENT, response.getLeft());
     }
 
     @DisplayName("Test if update(...) method returns Either.Right and is Correct")
@@ -88,7 +88,7 @@ class EmailFacadeServiceImplTest {
 
         // then
         assertTrue(response.isLeft());
-        assertEquals(Error.SENT, response.getLeft());
+        assertEquals(ErrorEnum.SENT, response.getLeft());
     }
 
     @DisplayName("Test if send(...) method returns Either.Left")
@@ -103,7 +103,7 @@ class EmailFacadeServiceImplTest {
 
         // then
         assertTrue(response.isLeft());
-        assertEquals(Error.NO_RECIPIENTS, response.getLeft());
+        assertEquals(ErrorEnum.NO_RECIPIENTS, response.getLeft());
     }
 
     @DisplayName("Test if send(...) method returns Either.Right and is Correct")

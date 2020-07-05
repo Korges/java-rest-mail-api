@@ -2,12 +2,11 @@ package com.korges.demo.controller;
 
 import com.korges.demo.model.dto.input.EmailInputDTO;
 import com.korges.demo.model.entity.Email;
-import com.korges.demo.model.enums.EmailStatus;
-import com.korges.demo.model.enums.Error;
 import com.korges.demo.service.EmailFacadeService;
 import io.vavr.collection.List;
-import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.korges.demo.ResponseHandler.generateResponseEntity;
+
 @RequiredArgsConstructor
 @RequestMapping("/emails")
 @RestController
@@ -23,72 +24,72 @@ public class EmailController {
     private final EmailFacadeService emailFacadeService;
 
     /**
-     * See all email in the system
-     * @return List<Email>
+     * Find all emails in the system
+     * @return ResponseEntity
      */
     @GetMapping
-    public List<Email> findAll() {
-        return emailFacadeService.findAll();
+    public ResponseEntity<List<Email>> findAll() {
+        return new ResponseEntity<>(emailFacadeService.findAll(), HttpStatus.OK);
     }
 
     /**
-     * See email by it's id
+     * Find email by id
      * @param id String
-     * @return
+     * @return ResponseEntity
      */
     @GetMapping("/{id}")
-    public Either<Error, Email> findById(@PathVariable("id") String id) {
-        return emailFacadeService.findById(id);
+    public ResponseEntity<?> findById(@PathVariable("id") String id) {
+        return generateResponseEntity(emailFacadeService.findById(id));
     }
 
     /**
      * Check status of the email
      * @param id String
-     * @return
+     * @return ResponseEntity
      */
     @GetMapping("/{id}/status")
-    public Either<Error, EmailStatus> findEmailStatus(@PathVariable("id") String id) {
-        return emailFacadeService.findEmailStatus(id);
+    public ResponseEntity<?> findEmailStatus(@PathVariable("id") String id) {
+        return generateResponseEntity(emailFacadeService.findEmailStatus(id));
     }
 
     /**
      * Create new email
      * @param email EmailInputDTO
-     * @return
+     * @return ResponseEntity
      */
     @PostMapping
-    public Email save(@RequestBody EmailInputDTO email) {
-        return emailFacadeService.save(email);
+    public ResponseEntity<Email> save(@RequestBody EmailInputDTO email) {
+        return new ResponseEntity<>(emailFacadeService.save(email), HttpStatus.CREATED);
     }
 
     /**
      * Update email
      * @param id String
      * @param email EmailInputDTO
-     * @return
+     * @return ResponseEntity
      */
     @PutMapping("/{id}")
-    public Either<Error, Email> update(@PathVariable("id") String id, @RequestBody EmailInputDTO email) {
-        return emailFacadeService.update(id, email);
+    public ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody EmailInputDTO email) {
+        return generateResponseEntity(emailFacadeService.update(id, email));
     }
 
     /**
      * Send email
      * @param id String
-     * @return
+     * @return ResponseEntity
      */
     @PostMapping("/send/{id}")
-    public Either<Error, Email> send(@PathVariable("id") String id) {
-        return emailFacadeService.send(id);
+    public ResponseEntity<?> send(@PathVariable("id") String id) {
+        return generateResponseEntity(emailFacadeService.send(id));
     }
 
     /**
      * Send all pending email
-     * @return
+     * @return ResponseEntity
      */
     @PostMapping("/send/all")
-    public List<Either<Error, Email>> sendAllPending() {
-        return emailFacadeService.sendAllPending();
+    public ResponseEntity<?> sendAllPending() {
+        return generateResponseEntity(emailFacadeService.sendAllPending());
     }
 
 }

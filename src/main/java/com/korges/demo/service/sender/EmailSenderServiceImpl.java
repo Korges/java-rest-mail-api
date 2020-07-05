@@ -1,7 +1,8 @@
 package com.korges.demo.service.sender;
 
+import com.korges.demo.model.dto.input.Error;
 import com.korges.demo.model.entity.Email;
-import com.korges.demo.model.enums.Error;
+import com.korges.demo.model.enums.ErrorEnum;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
@@ -38,7 +39,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return Either.left(Error.MAIL_SENDER_ERROR);
+            return Either.left(Error.build(email.getId(), ErrorEnum.MAIL_SENDER_ERROR));
         }
 
         return Either.right(email);
