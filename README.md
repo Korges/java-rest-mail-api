@@ -6,7 +6,7 @@ https://www.baeldung.com/spring-email#2-spring-boot-mail-server-properties
 
 ## 2. Create email
 POST http://localhost:8080/emails
-\
+</br>
 sample json input:
 ```
 {
@@ -33,6 +33,7 @@ response:
 ```
 ## 3. Send email
 POST http://localhost:8080/emails/send/5f0202f2c2f3ab3234d3bac6
+</br>
 response:
 <pre>
 {
@@ -66,7 +67,8 @@ response:
 * HIGH
 * MIDDLE
 * LOW
-* LOWEST\
+* LOWEST
+</br>
 example:
 ```
 POST http://localhost:8080/emails
@@ -80,17 +82,24 @@ POST http://localhost:8080/emails
 }
 ```
 6. All API methods:
-* Find all emails in the system\
+* Find all emails in the system
+\
 GET http://localhost:8080/emails
-* Find email by id\
+* Find email by id
+\
 GET http://localhost:8080/emails/{id}
-* Check status of the email\
+* Check status of the email
+\
 GET http://localhost:8080/emails/{id}/status
-* Create new email\
+* Create new email
+\
 POST http://localhost:8080/emails
-* Update email\
+* Update email
+\
 PUT http://localhost:8080/emails/{id}
-* Send email\
+* Send email
+\
 POST http://localhost:8080/emails/send/{id}
-* Send all pending emails\
+* Send all pending emails
+\
 POST http://localhost:8080/emails/send/all
