@@ -23,6 +23,7 @@ public class Email {
     private String subject;
     private String text;
     private Set<String> recipients;
+    private Set<String> attachments;
     private EmailStatus emailStatus;
 
     public Email() {
