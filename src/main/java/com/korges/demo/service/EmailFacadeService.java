@@ -8,9 +8,10 @@ import io.vavr.control.Either;
 
 public interface EmailFacadeService {
 
-    Email save(EmailInputDTO email);
     List<Email> findAll();
     Either<Error, Email> findById(String id);
+    Email save(EmailInputDTO email);
+    Either<Error, Email> update(String id, EmailInputDTO email);
     Either<Error, Email> send(String id);
     List<Either<Error, Email>> sendAllPending();
 

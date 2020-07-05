@@ -24,6 +24,16 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
     private final Function<Email, Email> setEmailStatusToSent = email -> new Email(email.getId(), email.getSubject(), email.getText(), email.getRecipients(), EmailStatus.SENT);
 
     @Override
+    public List<Email> findAll() {
+        return emailPersistenceService.findAll();
+    }
+
+    @Override
+    public Either<Error, Email> findById(String id) {
+        return emailPersistenceService.findById(id);
+    }
+
+    @Override
     public Email save(EmailInputDTO emailDTO) {
         Email email = Email.builder()
                 .subject(emailDTO.getSubject())
@@ -36,13 +46,11 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
     }
 
     @Override
-    public List<Email> findAll() {
-        return emailPersistenceService.findAll();
-    }
-
-    @Override
-    public Either<Error, Email> findById(String id) {
-        return emailPersistenceService.findById(id);
+    public Either<Error, Email> update(String id, EmailInputDTO email) {
+        return emailPersistenceService.findById(id)
+                .filterOrElse(x -> x.getEmailStatus().equals(EmailStatus.PENDING), x -> Error.SENT)
+                .map(x -> new Email(x.getId(), email.getSubject(), email.getText(), email.getRecipients(), x.getEmailStatus()))
+                .map(emailPersistenceService::save);
     }
 
     @Override
@@ -62,7 +70,6 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
                                 .map(setEmailStatusToSent)
                                 .map(emailPersistenceService::save)
                  );
-
     }
 
 }

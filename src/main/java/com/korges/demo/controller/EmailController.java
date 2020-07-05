@@ -7,12 +7,7 @@ import com.korges.demo.service.EmailFacadeService;
 import io.vavr.collection.List;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/emails")
@@ -33,6 +28,11 @@ public class EmailController {
     @PostMapping
     public Email save(@RequestBody EmailInputDTO email) {
         return emailFacadeService.save(email);
+    }
+
+    @PutMapping("/{id}")
+    public Either<Error, Email> update(@PathVariable("id") String id, @RequestBody EmailInputDTO email) {
+        return emailFacadeService.update(id, email);
     }
 
     // TODO
