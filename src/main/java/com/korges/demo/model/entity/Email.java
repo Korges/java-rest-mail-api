@@ -8,7 +8,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.util.Set;
 
 
 @AllArgsConstructor
@@ -22,7 +22,7 @@ public class Email {
     private String id;
     private String subject;
     private String text;
-    private List<String> recipients;
+    private Set<String> recipients;
     private EmailStatus emailStatus;
 
     public Email() {
