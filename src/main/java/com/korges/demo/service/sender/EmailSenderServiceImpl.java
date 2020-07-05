@@ -20,8 +20,6 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 
     @Override
     public Either<Error, Email> send(Email email) {
-        if (email.getRecipients().isEmpty()) return Either.left(Error.NO_RECIPIENTS);
-
         MimeMessage message = emailSender.createMimeMessage();
 
         try {
