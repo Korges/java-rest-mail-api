@@ -51,15 +51,12 @@ response:
 ## 4. You can add attachments. Enter attachment filepath. You can put them under /resources package
 <pre>
 {
-    "id": "5f0202f2c2f3ab3234d3bac6",
     "subject": "Welcome",
     "text": "How are you?",
     "recipients": [
-        "some@email.com"
+    	"some@email.com"
     ],
-    <b>"attachments": ["attachment.txt"]</b>,
-    "emailStatus": "SENT",
-    "priority": "LOWEST"
+    <b>"attachments": ["attachment.txt"]</b>
 }
 </pre>
 ## 5. You can set priority. By default its LOWEST
