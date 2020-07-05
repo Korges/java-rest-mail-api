@@ -4,20 +4,26 @@ import com.korges.demo.model.dto.Error;
 import com.korges.demo.model.entity.Email;
 import io.vavr.collection.List;
 import io.vavr.control.Either;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+@Slf4j
 public class ResponseHandler {
 
     private ResponseHandler() {}
 
     public static <T> ResponseEntity<Object> generateResponseEntity(Either<Error, T> either) {
+        log.info("[ResponseHandler] - generating ResponseEntity for given either: " + either);
+
         return either
                 .map(ResponseHandler::createObject)
                 .getOrElseGet(ResponseHandler::createErrorResponse);
     }
 
     public static ResponseEntity<Object> generateResponseEntity(List<Either<Error, Email>> list) {
+        log.info("[ResponseHandler] - generating ResponseEntity");
+
         return new ResponseEntity<>(list
                 .map(ResponseHandler::mapEither), HttpStatus.OK);
     }

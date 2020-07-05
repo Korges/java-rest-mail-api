@@ -5,6 +5,7 @@ import com.korges.demo.model.entity.Email;
 import com.korges.demo.service.EmailFacadeService;
 import io.vavr.collection.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.korges.demo.controller.responsehandler.ResponseHandler.generateResponseEntity;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/emails")
 @RestController
@@ -29,6 +31,8 @@ public class EmailController {
      */
     @GetMapping
     public ResponseEntity<List<Email>> findAll() {
+        log.info("[EmailController] - fetching all emails");
+
         return new ResponseEntity<>(emailFacadeService.findAll(), HttpStatus.OK);
     }
 
@@ -39,6 +43,8 @@ public class EmailController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") String id) {
+        log.info("[EmailController] - fetching email by given id: " + id);
+
         return generateResponseEntity(emailFacadeService.findById(id));
     }
 
@@ -49,6 +55,8 @@ public class EmailController {
      */
     @GetMapping("/{id}/status")
     public ResponseEntity<?> findEmailStatus(@PathVariable("id") String id) {
+        log.info("[EmailController] - fetching email by given id: " + id);
+
         return generateResponseEntity(emailFacadeService.findEmailStatus(id));
     }
 
@@ -59,6 +67,8 @@ public class EmailController {
      */
     @PostMapping
     public ResponseEntity<Email> save(@RequestBody EmailInput email) {
+        log.info("[EmailController] - saving new email: " + email);
+
         return new ResponseEntity<>(emailFacadeService.save(email), HttpStatus.CREATED);
     }
 
@@ -70,6 +80,8 @@ public class EmailController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody EmailInput email) {
+        log.info("[EmailController] - updating email by given id: " + id + " with: " + email);
+
         return generateResponseEntity(emailFacadeService.update(id, email));
     }
 
@@ -80,6 +92,8 @@ public class EmailController {
      */
     @PostMapping("/send/{id}")
     public ResponseEntity<?> send(@PathVariable("id") String id) {
+        log.info("[EmailController] - sending email by given id: " + id);
+
         return generateResponseEntity(emailFacadeService.send(id));
     }
 
@@ -89,6 +103,8 @@ public class EmailController {
      */
     @PostMapping("/send/all")
     public ResponseEntity<?> sendAllPending() {
+        log.info("[EmailController] - sending all pending emails");
+
         return generateResponseEntity(emailFacadeService.sendAllPending());
     }
 
