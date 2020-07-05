@@ -7,7 +7,9 @@ import com.korges.demo.model.enums.Error;
 import com.korges.demo.model.enums.Priority;
 import com.korges.demo.service.persistence.EmailPersistenceService;
 import com.korges.demo.service.sender.EmailSenderService;
+import io.vavr.collection.List;
 import io.vavr.control.Either;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -126,6 +129,56 @@ class EmailFacadeServiceImplTest {
                 () -> assertEquals(0, response.get().getAttachments().size()),
                 () -> assertEquals(EmailStatus.SENT, response.get().getEmailStatus()),
                 () -> assertEquals(Priority.LOWEST, response.get().getPriority())
+        );
+    }
+
+    @DisplayName("Test if sendAllPending() method returns empty list")
+    @Test
+    void test_sendAllPending() {
+        // given
+        Mockito.when(persistenceService.findAllByEmailStatus(EmailStatus.PENDING))
+                .thenReturn(io.vavr.collection.List.of());
+
+        List<Either<Error, Email>> response = emailFacadeService.sendAllPending();
+
+        Assertions.assertEquals(0, response.size());
+    }
+
+    @DisplayName("Test if sendAllPending() method returns empty list")
+    @Test
+    void test_sendAllPending_2() {
+        // given
+        Mockito.when(persistenceService.findAllByEmailStatus(EmailStatus.PENDING))
+                .thenReturn(io.vavr.collection.List.of(emailResponse(EmailStatus.PENDING, Set.of())));
+
+        List<Either<Error, Email>> response = emailFacadeService.sendAllPending();
+
+        Assertions.assertEquals(0, response.size());
+    }
+
+    @DisplayName("Test if sendAllPending() method returns list with single element")
+    @Test
+    void test_sendAllPending_3() {
+        // given
+        Mockito.when(persistenceService.findAllByEmailStatus(EmailStatus.PENDING))
+                .thenReturn(io.vavr.collection.List.of(emailResponse(EmailStatus.PENDING, Set.of(EMAIL))));
+        Mockito.when(senderService.send(any()))
+                .thenReturn(Either.right(emailResponse(EmailStatus.PENDING, Set.of(EMAIL))));
+        Mockito.when(persistenceService.save(any()))
+                .then(returnsFirstArg());
+
+        // when
+        List<Either<Error, Email>> response = emailFacadeService.sendAllPending();
+
+        // then
+        assertAll(
+                () -> assertEquals(1, response.size()),
+                () -> assertEquals("SUBJECT", response.get(0).get().getSubject()),
+                () -> assertEquals("TEXT", response.get(0).get().getText()),
+                () -> assertEquals(1, response.get(0).get().getRecipients().size()),
+                () -> assertEquals(0, response.get(0).get().getAttachments().size()),
+                () -> assertEquals(EmailStatus.SENT, response.get(0).get().getEmailStatus()),
+                () -> assertEquals(Priority.LOWEST, response.get(0).get().getPriority())
         );
     }
 
