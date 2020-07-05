@@ -8,7 +8,7 @@ import java.util.Set;
 
 
 @Getter @Setter
-public class EmailInputDTO {
+public class EmailInput {
     private String subject;
     private String text;
     private Set<String> recipients = Set.of();

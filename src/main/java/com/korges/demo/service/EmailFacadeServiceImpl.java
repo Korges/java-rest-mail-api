@@ -1,6 +1,6 @@
 package com.korges.demo.service;
 
-import com.korges.demo.model.dto.input.EmailInputDTO;
+import com.korges.demo.model.dto.input.EmailInput;
 import com.korges.demo.model.dto.input.Error;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.model.enums.EmailStatus;
@@ -36,7 +36,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
     }
 
     @Override
-    public Email save(EmailInputDTO emailDTO) {
+    public Email save(EmailInput emailDTO) {
         Email email = Email.builder()
                 .subject(emailDTO.getSubject())
                 .text(emailDTO.getText())
@@ -50,7 +50,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
     }
 
     @Override
-    public Either<Error, Email> update(String id, EmailInputDTO email) {
+    public Either<Error, Email> update(String id, EmailInput email) {
         return emailPersistenceService.findById(id)
                 .filterOrElse(x -> x.getEmailStatus().equals(EmailStatus.PENDING), x -> Error.build(id, ErrorEnum.SENT))
                 .map(x -> new Email(x.getId(), email.getSubject(), email.getText(), email.getRecipients(), email.getAttachments(), x.getEmailStatus(), email.getPriority()))

@@ -1,6 +1,6 @@
 package com.korges.demo.service;
 
-import com.korges.demo.model.dto.input.EmailInputDTO;
+import com.korges.demo.model.dto.input.EmailInput;
 import com.korges.demo.model.dto.input.Error;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.model.enums.EmailStatus;
@@ -40,7 +40,7 @@ class EmailFacadeServiceImplTest {
     @Test
     void test_update() {
         // given
-        EmailInputDTO input = emailInputDTO();
+        EmailInput input = emailInputDTO();
         Mockito.when(persistenceService.findById(any()))
                 .thenReturn(Either.right(emailResponse(EmailStatus.SENT, Set.of(EMAIL))));
 
@@ -56,7 +56,7 @@ class EmailFacadeServiceImplTest {
     @Test
     void test_update_2() {
         // given
-        EmailInputDTO input = emailInputDTO();
+        EmailInput input = emailInputDTO();
         Mockito.when(persistenceService.save(any())).then(returnsFirstArg());
         Mockito.when(persistenceService.findById(any()))
                 .thenReturn(Either.right(emailResponse(EmailStatus.PENDING, Set.of(EMAIL))));
@@ -182,8 +182,8 @@ class EmailFacadeServiceImplTest {
         );
     }
 
-    private EmailInputDTO emailInputDTO() {
-        EmailInputDTO input = new EmailInputDTO();
+    private EmailInput emailInputDTO() {
+        EmailInput input = new EmailInput();
         input.setSubject("SUBJECT");
         input.setText("TEXT");
 

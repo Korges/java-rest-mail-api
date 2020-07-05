@@ -1,6 +1,6 @@
 package com.korges.demo.controller;
 
-import com.korges.demo.model.dto.input.EmailInputDTO;
+import com.korges.demo.model.dto.input.EmailInput;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.service.EmailFacadeService;
 import io.vavr.collection.List;
@@ -58,7 +58,7 @@ public class EmailController {
      * @return ResponseEntity
      */
     @PostMapping
-    public ResponseEntity<Email> save(@RequestBody EmailInputDTO email) {
+    public ResponseEntity<Email> save(@RequestBody EmailInput email) {
         return new ResponseEntity<>(emailFacadeService.save(email), HttpStatus.CREATED);
     }
 
@@ -69,7 +69,7 @@ public class EmailController {
      * @return ResponseEntity
      */
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody EmailInputDTO email) {
+    public ResponseEntity<?> update(@PathVariable("id") String id, @RequestBody EmailInput email) {
         return generateResponseEntity(emailFacadeService.update(id, email));
     }
 
