@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import static java.util.Objects.isNull;
-
 @RequiredArgsConstructor
 @Service
 public class EmailFacadeServiceImpl implements EmailFacadeService {
@@ -30,7 +28,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
         Email email = Email.builder()
                 .subject(emailDTO.getSubject())
                 .text(emailDTO.getText())
-                .recipients(isNull(emailDTO.getRecipients()) ? List.empty() : List.ofAll(emailDTO.getRecipients()))
+                .recipients(emailDTO.getRecipients())
                 .emailStatus(EmailStatus.PENDING)
                 .build();
 
@@ -58,7 +56,6 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
 
     @Override
     public List<Either<Error, Email>> sendAllPending() {
-
         return emailPersistenceService.findAllByEmailStatus(EmailStatus.PENDING)
                  .map(x -> emailSenderService
                                 .send(x)
