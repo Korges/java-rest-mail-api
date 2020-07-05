@@ -54,7 +54,7 @@ public class EmailController {
 
     /**
      * Create new email
-     * @param email EmailInputDTO
+     * @param email EmailInput
      * @return ResponseEntity
      */
     @PostMapping
@@ -65,7 +65,7 @@ public class EmailController {
     /**
      * Update email
      * @param id String
-     * @param email EmailInputDTO
+     * @param email EmailInput
      * @return ResponseEntity
      */
     @PutMapping("/{id}")
