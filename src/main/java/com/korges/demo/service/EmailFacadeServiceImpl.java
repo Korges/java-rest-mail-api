@@ -6,14 +6,13 @@ import com.korges.demo.model.enums.EmailStatus;
 import com.korges.demo.model.enums.Error;
 import com.korges.demo.service.persistence.EmailPersistenceService;
 import com.korges.demo.service.sender.EmailSenderService;
+import io.vavr.collection.List;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -31,7 +30,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
         Email email = Email.builder()
                 .subject(emailDTO.getSubject())
                 .text(emailDTO.getText())
-                .recipients(isNull(emailDTO.getRecipients()) ? List.of() : emailDTO.getRecipients())
+                .recipients(isNull(emailDTO.getRecipients()) ? List.empty() : List.ofAll(emailDTO.getRecipients()))
                 .emailStatus(EmailStatus.PENDING)
                 .build();
 
@@ -59,11 +58,14 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
 
     @Override
     public List<Either<Error, Email>> sendAllPending() {
+
         return emailPersistenceService.findAllByEmailStatus(EmailStatus.PENDING)
-                .stream()
-                .map(Email::getId)
-                .map(this::send)
-                .collect(Collectors.toList());
+                 .map(x -> emailSenderService
+                                .send(x)
+                                .map(setEmailStatusToSent)
+                                .map(emailPersistenceService::save)
+                 );
+
     }
 
 }

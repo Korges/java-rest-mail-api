@@ -3,9 +3,8 @@ package com.korges.demo.service;
 import com.korges.demo.model.dto.input.EmailInputDTO;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.model.enums.Error;
+import io.vavr.collection.List;
 import io.vavr.control.Either;
-
-import java.util.List;
 
 public interface EmailFacadeService {
 

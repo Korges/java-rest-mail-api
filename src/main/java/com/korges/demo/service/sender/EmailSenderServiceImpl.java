@@ -23,7 +23,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
 
         message.setSubject(email.getSubject());
         message.setText(email.getText());
-        message.setTo(email.getRecipients().toArray(String[]::new));
+        message.setTo(email.getRecipients().toJavaArray(String[]::new));
 
         emailSender.send(message);
 
