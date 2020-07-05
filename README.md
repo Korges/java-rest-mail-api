@@ -1,4 +1,6 @@
 # java-rest-mail-api
+### you can use swager interface. Link below:
+http://localhost:8080/swagger-ui.html#/email-controller
 
 ## 1. Set up your email credentials under application.properties
 you can check example there\
