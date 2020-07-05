@@ -1,4 +1,4 @@
-package com.korges.demo;
+package com.korges.demo.controller.responsehandler;
 
 import com.korges.demo.model.dto.input.Error;
 import com.korges.demo.model.entity.Email;
