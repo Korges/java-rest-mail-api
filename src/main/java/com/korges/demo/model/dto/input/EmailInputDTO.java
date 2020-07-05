@@ -2,11 +2,12 @@ package com.korges.demo.model.dto.input;
 
 import com.korges.demo.model.enums.Priority;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
 
-@Getter
+@Getter @Setter
 public class EmailInputDTO {
     private String subject;
     private String text;
