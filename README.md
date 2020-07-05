@@ -83,23 +83,23 @@ POST http://localhost:8080/emails
 ```
 6. All API methods:
 * Find all emails in the system
-\
+</br>
 GET http://localhost:8080/emails
 * Find email by id
-\
+</br>
 GET http://localhost:8080/emails/{id}
 * Check status of the email
-\
+</br>
 GET http://localhost:8080/emails/{id}/status
 * Create new email
-\
+</br>
 POST http://localhost:8080/emails
 * Update email
-\
+</br>
 PUT http://localhost:8080/emails/{id}
 * Send email
-\
+</br>
 POST http://localhost:8080/emails/send/{id}
 * Send all pending emails
-\
+</br>
 POST http://localhost:8080/emails/send/all
