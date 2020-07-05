@@ -70,8 +70,8 @@ response:
 * LOWEST
 </br>
 example:
-```
 POST http://localhost:8080/emails
+```
 {
     "subject": "Welcome",
     "text": "How are you?",
@@ -81,25 +81,25 @@ POST http://localhost:8080/emails
     "priority": "HIGHEST"
 }
 ```
-6. All API methods:
-* Find all emails in the system
+## 6. All API methods:
++ Find all emails in the system
 </br>
 GET http://localhost:8080/emails
-* Find email by id
++ Find email by id
 </br>
 GET http://localhost:8080/emails/{id}
-* Check status of the email
++ Check status of the email
 </br>
 GET http://localhost:8080/emails/{id}/status
-* Create new email
++ Create new email
 </br>
 POST http://localhost:8080/emails
-* Update email
++ Update email
 </br>
 PUT http://localhost:8080/emails/{id}
-* Send email
++ Send email
 </br>
 POST http://localhost:8080/emails/send/{id}
-* Send all pending emails
++ Send all pending emails
 </br>
 POST http://localhost:8080/emails/send/all
