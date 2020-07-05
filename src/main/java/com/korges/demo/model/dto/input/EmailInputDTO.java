@@ -1,5 +1,6 @@
 package com.korges.demo.model.dto.input;
 
+import com.korges.demo.model.enums.Priority;
 import lombok.Getter;
 
 import java.util.Set;
@@ -9,6 +10,7 @@ import java.util.Set;
 public class EmailInputDTO {
     private String subject;
     private String text;
-    private final Set<String> recipients = Set.of();
-    private final Set<String> attachments = Set.of();
+    private Set<String> recipients = Set.of();
+    private Set<String> attachments = Set.of();
+    private Priority priority = Priority.LOWEST;
 }

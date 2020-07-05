@@ -1,6 +1,7 @@
 package com.korges.demo.model.entity;
 
 import com.korges.demo.model.enums.EmailStatus;
+import com.korges.demo.model.enums.Priority;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class Email {
     private Set<String> recipients;
     private Set<String> attachments;
     private EmailStatus emailStatus;
+    private Priority priority;
 
     public Email() {
 

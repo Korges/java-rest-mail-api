@@ -22,7 +22,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
 
     private final Predicate<Email> isEmailPending =  email -> email.getEmailStatus().equals(EmailStatus.PENDING);
     private final Predicate<Email> isRecipientProvided = email -> !email.getRecipients().isEmpty();
-    private final Function<Email, Email> setEmailStatusToSent = email -> new Email(email.getId(), email.getSubject(), email.getText(), email.getRecipients(), email.getAttachments(), EmailStatus.SENT);
+    private final Function<Email, Email> setEmailStatusToSent = email -> new Email(email.getId(), email.getSubject(), email.getText(), email.getRecipients(), email.getAttachments(), EmailStatus.SENT, email.getPriority());
 
     @Override
     public List<Email> findAll() {
@@ -42,6 +42,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
                 .recipients(emailDTO.getRecipients())
                 .attachments(emailDTO.getAttachments())
                 .emailStatus(EmailStatus.PENDING)
+                .priority(emailDTO.getPriority())
                 .build();
 
         return emailPersistenceService.save(email);
@@ -51,7 +52,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
     public Either<Error, Email> update(String id, EmailInputDTO email) {
         return emailPersistenceService.findById(id)
                 .filterOrElse(x -> x.getEmailStatus().equals(EmailStatus.PENDING), x -> Error.SENT)
-                .map(x -> new Email(x.getId(), email.getSubject(), email.getText(), email.getRecipients(), email.getAttachments(), x.getEmailStatus()))
+                .map(x -> new Email(x.getId(), email.getSubject(), email.getText(), email.getRecipients(), email.getAttachments(), x.getEmailStatus(), email.getPriority()))
                 .map(emailPersistenceService::save);
     }
 

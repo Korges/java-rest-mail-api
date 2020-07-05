@@ -27,6 +27,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
             helper.setTo(email.getRecipients().toArray(String[]::new));
             helper.setSubject(email.getSubject());
             helper.setText(email.getText());
+            helper.setPriority(email.getPriority().getValue());
 
             for (String attachment : email.getAttachments()) {
                 FileSystemResource file = new FileSystemResource(new File(attachment));
