@@ -2,7 +2,6 @@ package com.korges.demo.model.entity;
 
 import com.korges.demo.model.enums.EmailStatus;
 import com.korges.demo.model.enums.Priority;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Set;
 
 
-@AllArgsConstructor
-@Setter
-@Getter
+@Setter @Getter
 @Builder
 @Document
 public class Email {
@@ -32,4 +29,14 @@ public class Email {
 
     }
 
+    public Email(String id, String subject, String text, Set<String> recipients,
+                 Set<String> attachments, EmailStatus emailStatus, Priority priority) {
+        this.id = id;
+        this.subject = subject;
+        this.text = text;
+        this.recipients = recipients;
+        this.attachments = attachments;
+        this.emailStatus = emailStatus;
+        this.priority = priority;
+    }
 }

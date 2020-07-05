@@ -1,7 +1,8 @@
 package com.korges.demo.service;
 
-import com.korges.demo.model.dto.input.EmailInput;
-import com.korges.demo.model.dto.input.Error;
+import com.korges.demo.mapper.EmailMapper;
+import com.korges.demo.model.dto.EmailInput;
+import com.korges.demo.model.dto.Error;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.model.enums.EmailStatus;
 import com.korges.demo.model.enums.ErrorEnum;
@@ -12,8 +13,10 @@ import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.function.Function;
 import java.util.function.Predicate;
+
+import static com.korges.demo.mapper.EmailMapper.mapEmailInputToEmail;
+import static com.korges.demo.mapper.EmailMapper.updateEmail;
 
 @RequiredArgsConstructor
 @Service
@@ -23,7 +26,6 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
 
     private final Predicate<Email> isEmailPending =  email -> email.getEmailStatus().equals(EmailStatus.PENDING);
     private final Predicate<Email> isRecipientProvided = email -> !email.getRecipients().isEmpty();
-    private final Function<Email, Email> setEmailStatusToSent = email -> new Email(email.getId(), email.getSubject(), email.getText(), email.getRecipients(), email.getAttachments(), EmailStatus.SENT, email.getPriority());
 
     @Override
     public List<Email> findAll() {
@@ -37,23 +39,16 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
 
     @Override
     public Email save(EmailInput emailDTO) {
-        Email email = Email.builder()
-                .subject(emailDTO.getSubject())
-                .text(emailDTO.getText())
-                .recipients(emailDTO.getRecipients())
-                .attachments(emailDTO.getAttachments())
-                .emailStatus(EmailStatus.PENDING)
-                .priority(emailDTO.getPriority())
-                .build();
+        Email email = mapEmailInputToEmail(emailDTO);
 
         return emailPersistenceService.save(email);
     }
 
     @Override
-    public Either<Error, Email> update(String id, EmailInput email) {
+    public Either<Error, Email> update(String id, EmailInput emailInput) {
         return emailPersistenceService.findById(id)
                 .filterOrElse(x -> x.getEmailStatus().equals(EmailStatus.PENDING), x -> Error.build(id, ErrorEnum.SENT))
-                .map(x -> new Email(x.getId(), email.getSubject(), email.getText(), email.getRecipients(), email.getAttachments(), x.getEmailStatus(), email.getPriority()))
+                .map(email -> updateEmail(email, emailInput))
                 .map(emailPersistenceService::save);
     }
 
@@ -63,7 +58,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
                 .filterOrElse(isEmailPending, x -> Error.build(id, ErrorEnum.SENT))
                 .filterOrElse(isRecipientProvided, x -> Error.build(id, ErrorEnum.NO_RECIPIENTS))
                 .flatMap(emailSenderService::send)
-                .map(setEmailStatusToSent)
+                .map(EmailMapper::setEmailStatusToSent)
                 .map(emailPersistenceService::save);
     }
 
@@ -73,7 +68,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
                 .filter(isRecipientProvided)
                 .map(x -> emailSenderService
                                 .send(x)
-                                .map(setEmailStatusToSent)
+                                .map(EmailMapper::setEmailStatusToSent)
                                 .map(emailPersistenceService::save)
                 );
     }

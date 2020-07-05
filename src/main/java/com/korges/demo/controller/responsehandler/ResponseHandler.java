@@ -1,6 +1,6 @@
 package com.korges.demo.controller.responsehandler;
 
-import com.korges.demo.model.dto.input.Error;
+import com.korges.demo.model.dto.Error;
 import com.korges.demo.model.entity.Email;
 import io.vavr.collection.List;
 import io.vavr.control.Either;

@@ -1,6 +1,6 @@
 package com.korges.demo.controller;
 
-import com.korges.demo.model.dto.input.EmailInput;
+import com.korges.demo.model.dto.EmailInput;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.service.EmailFacadeService;
 import io.vavr.collection.List;

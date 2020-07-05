@@ -1,4 +1,4 @@
-package com.korges.demo.model.dto.input;
+package com.korges.demo.model.dto;
 
 import com.korges.demo.model.enums.Priority;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.korges.demo.service.persistence;
 
-import com.korges.demo.model.dto.input.Error;
+import com.korges.demo.model.dto.Error;
 import com.korges.demo.model.entity.Email;
 import com.korges.demo.model.enums.EmailStatus;
 import io.vavr.collection.List;
