@@ -56,7 +56,7 @@ public class EmailFacadeServiceImpl implements EmailFacadeService {
         log.info("[EmailFacadeServiceImpl] - updating email by id: " + id + " with: " + emailInput);
 
         return emailPersistenceService.findById(id)
-                .filterOrElse(x -> x.getEmailStatus().equals(EmailStatus.PENDING), x -> Error.build(id, ErrorEnum.SENT))
+                .filterOrElse(isEmailPending, x -> Error.build(id, ErrorEnum.SENT))
                 .map(email -> updateEmail(email, emailInput))
                 .map(emailPersistenceService::save);
     }
