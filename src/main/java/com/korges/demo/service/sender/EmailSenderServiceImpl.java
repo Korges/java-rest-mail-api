@@ -6,14 +6,13 @@ import com.korges.demo.model.enums.ErrorEnum;
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -57,7 +56,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
     private void addAttachments(MimeMessageHelper helper, Email email) throws MessagingException {
         for (String attachment : email.getAttachments()) {
             log.info("[EmailSenderServiceImpl] - adding attachments to email");
-            FileSystemResource file = new FileSystemResource(new File(attachment));
+            ClassPathResource file = new ClassPathResource(attachment);
             helper.addAttachment(attachment, file);
         }
     }
